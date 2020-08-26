@@ -11,7 +11,6 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
@@ -21,29 +20,53 @@ try {
     $mail->Port       = 587;
 
     //Recipients
-    $mail->setFrom('john.laterre@gmail.com', 'John');
-    $mail->addAddress('ep1ctete@protonmail.com', 'ep1ctete');
+    $mail->setFrom('john.laterre@gmail.com', 'Hackers Poulette Support Team');
+    $mail->addAddress('john.laterre@gmail.com', 'John');
+    $mail->addAddress($email, $firstname);
     
     // Content
     $body = "
-        <p>Hello!</p>
-        <p>Thank you for reaching out to us.</p>
-        <p>Your form was successfully submitted.</p>
-        <p>We will get back to you as soon as possible.</p>
-        <p>Take care.</p>
+        <p>
+            Hello " . $firstname . "!<br>
+            Thank you for reaching out to us.<br>
+            Your form was successfully submitted.<br>
+            We will get back to you as soon as possible.<br>
+            Take care.<br>
+        </p>
         <p></p>
-        <p>Hacker's Poulette support team.</p>
+        <p><i>Hackers Poulette Support Team.</i></p><br>
+        <p></p>
+        <p>Here is a recap of your form:</p>
+        <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;First Name: " . $firstname . "<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Last Name: " . $lastname . "<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Gender: " . $gender . "<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Email address: " . $email . "<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Country: " . $country . "<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Subject: " . $subject . "<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Message: " . $message . "<br>
+        </p>
     ";
 
     $mail->isHTML(true);
-    $mail->Subject = 'Form submit';
+    $mail->Subject = 'Hackers Poulette Contact Form';
     $mail->Body    = $body;
     $mail->AltBody = strip_tags($body);
     $mail->send();
 
-    echo 'Message has been sent';
+    $email_sent = '
+        <div class="alert alert-success" role="alert">
+            Your message was sent successfully!<br>
+            Thank you for contacting us.
+        </div>
+    ';
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    $email_not_sent = '
+        <div class="alert alert-danger" role="alert">
+            Your message could not be sent.<br>
+            Mailer Error: {$mail->ErrorInfo}
+        </div>
+    ';
 }
 
 ?>
