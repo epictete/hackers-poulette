@@ -1,0 +1,21 @@
+/* color1: #0d8187;
+color2: #FFF;
+color3: #303030; */
+
+body {
+  font-family: "Bellota";
+  font-weight: bold;
+}
+
+img {
+  display: block;
+  margin: auto;
+}
+
+form {
+  padding-bottom: 50px;
+}
+
+.error {
+  color: #ff0000;
+}
