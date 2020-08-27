@@ -1,0 +1,4 @@
+<Files external.php> 
+	Order Allow,Deny
+	Deny from all
+</Files>
