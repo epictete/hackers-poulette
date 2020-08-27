@@ -20,7 +20,7 @@
     $firstnameErr = $lastnameErr = $genderErr = $emailErr = $countryErr = $messageErr = "";
     $firstname = $lastname = $gender = $email = $country = $subject = $message = "";
     $firstnameOk = $lastnameOk = $genderOk = $emailOk = $countryOk = $messageOk = false;
-    $email_sent = $email_not_sent = "";
+    $info = $email_sent = $email_not_sent = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if(empty($_POST["website"])) {
@@ -28,8 +28,8 @@
             $firstnameErr = "First Name is required";
         } else {
             $firstname = test_input($_POST["firstname"]);
-            if (!preg_match("/^[a-zA-Z ]*$/",$firstname)) {
-                $firstnameErr = "Only letters and white space allowed";
+            if (!preg_match("/^[a-zA-Z\- ]*$/",$firstname)) {
+                $firstnameErr = "Only letters, hyphens and white space allowed";
             } else {
               $firstnameOk = true; 
             }
@@ -38,8 +38,8 @@
             $lastnameErr = "Last Name is required";
         } else {
             $lastname = test_input($_POST["lastname"]);
-            if (!preg_match("/^[a-zA-Z ]*$/",$lastname)) {
-                $lastnameErr = "Only letters and white space allowed";
+            if (!preg_match("/^[a-zA-Z\- ]*$/",$lastname)) {
+                $lastnameErr = "Only letters, hyphens and white space allowed";
             } else {
               $lastnameOk = true; 
             }
@@ -47,6 +47,7 @@
         if (empty($_POST["gender"])) {
             $genderErr = "Gender is required";
         } else {
+            $gender = test_input($_POST["gender"]);
             $genderOk = true; 
         }
         if (empty($_POST["email"])) {
@@ -74,21 +75,27 @@
             $messageErr = "Message is required";
         } else {
             $message = test_input($_POST["message"]);
-            if (!preg_match("/^[a-zA-Z0-9 ]*$/",$message)) {
+            if (!filter_var($message, FILTER_SANITIZE_STRING)) {
                 $messageErr = "Only letters, white space and numbers allowed";
             } else {
               $messageOk = true; 
             }
         }
         if (
-          $firstnameOk = true &&
-          $lastnameOk = true &&
-          $genderOk = true &&
-          $emailOk = true &&
-          $countryOk = true &&
-          $messageOk = true
+          $firstnameOk &&
+          $lastnameOk &&
+          $genderOk &&
+          $emailOk &&
+          $countryOk &&
+          $messageOk
           ) {
           require 'mailer.php';
+        } else {
+          $info = '
+          <div class="alert alert-warning" role="alert">
+            Some fields are missing or incorrect.
+          </div>
+          ';
         }
       }
     }
@@ -103,7 +110,8 @@
 
     <img src="/hackers-poulette-logo.png" alt="" />
 
-    <div class="container">
+    <div class="container w-50">
+      <?php echo $info;?>
       <?php echo $email_sent;?>
       <?php echo $email_not_sent;?>
     </div>
@@ -113,7 +121,7 @@
           <h1 class="display-4 text-center">Support Team</h1>
           <hr class="my-4">
           <h3 class="text-center">Contact Form</h3>
-          <p class="error">* required field</p>
+          <p class="error text-right">* required field</p>
           <form
           id="form"
           method="post"
@@ -156,7 +164,7 @@
                 id="male"
                 name="gender"
                 value="male"
-                <?php if (isset($gender) && $gender=="male") echo "checked";?>
+                <?php if (isset($gender) && $gender == "male") echo "checked";?>
                 role="radio"
               />
               <label class="form-check-label" for="male">
@@ -170,7 +178,7 @@
                 id="female"
                 name="gender"
                 value="female"
-                <?php if (isset($gender) && $gender=="female") echo "checked";?>
+                <?php if (isset($gender) && $gender == "female") echo "checked";?>
                 role="radio"
               />
               <label class="form-check-label" for="female">
@@ -184,7 +192,7 @@
                 id="other"
                 name="gender"
                 value="other"
-                <?php if (isset($gender) && $gender=="other") echo "checked";?>
+                <?php if (isset($gender) && $gender == "other") echo "checked";?>
                 role="radio"
               />
               <label class="form-check-label" for="other">
@@ -234,12 +242,12 @@
 
           <!-- Subject -->
           <div class="form-group">
-            <label for="subject">Please select a subject:</label>
+            <label for="subject">Subject:</label>
             <select class="form-control" name="subject" id="subject">
               <option value="other" <?php if (isset($subject) && $subject=="other") echo "selected";?>>Other</option>
-              <option value="subject1" <?php if (isset($subject) && $subject=="subject1") echo "selected";?>>Installation</option>
-              <option value="subject2" <?php if (isset($subject) && $subject=="subject2") echo "selected";?>>Configuration</option>
-              <option value="subject3" <?php if (isset($subject) && $subject=="subject3") echo "selected";?>>Bug report</option>
+              <option value="installation" <?php if (isset($subject) && $subject=="installation") echo "selected";?>>Installation</option>
+              <option value="configuration" <?php if (isset($subject) && $subject=="configuration") echo "selected";?>>Configuration</option>
+              <option value="bug-report" <?php if (isset($subject) && $subject=="bug-report") echo "selected";?>>Bug report</option>
             </select>
           </div>
 

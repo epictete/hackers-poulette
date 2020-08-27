@@ -11,7 +11,9 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
+    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
+    $mail->Mailer     = "smtp";
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'john.laterre@gmail.com';
@@ -20,7 +22,7 @@ try {
     $mail->Port       = 587;
 
     //Recipients
-    $mail->setFrom('john.laterre@gmail.com', 'Hackers Poulette Support Team');
+    $mail->setFrom('support@hackers-poulette.com', 'Hackers Poulette Support Team');
     $mail->addAddress('john.laterre@gmail.com', 'John');
     $mail->addAddress($email, $firstname);
     
@@ -64,7 +66,7 @@ try {
     $email_not_sent = '
         <div class="alert alert-danger" role="alert">
             Your message could not be sent.<br>
-            Mailer Error: {$mail->ErrorInfo}
+            Mailer Error: ' . $mail->ErrorInfo . '
         </div>
     ';
 }
