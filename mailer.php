@@ -11,7 +11,7 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
     $mail->Mailer     = "smtp";
     $mail->Host       = 'smtp.gmail.com';
@@ -23,7 +23,7 @@ try {
 
     //Recipients
     $mail->setFrom('support@hackers-poulette.com', 'Hackers Poulette Support Team');
-    $mail->addAddress('epictete.dev@gmail.com', 'Epictete');
+    $mail->addAddress('john.laterre@gmail.com', 'John');
     $mail->addAddress($email, $firstname);
     
     // Content
