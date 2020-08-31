@@ -109,7 +109,7 @@
     }
     ?>
 
-    <img src="/hackers-poulette-logo.png" alt="" />
+    <img src="./hackers-poulette-logo.png" alt="" />
 
     <div class="container w-50">
       <?php echo $info;?>

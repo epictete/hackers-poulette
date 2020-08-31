@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
-require 'external.php';
 
 $mail = new PHPMailer(true);
 
