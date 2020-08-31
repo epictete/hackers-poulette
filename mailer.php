@@ -22,7 +22,7 @@ try {
 
     //Recipients
     $mail->setFrom('support@hackers-poulette.com', 'Hackers Poulette Support Team');
-    $mail->addAddress('epictete.dev@gmail.com', 'Epictete');
+    $mail->addAddress('epictete.dev@gmail.com', 'Epictète');
     $mail->addAddress($email, $firstname);
     
     // Content
